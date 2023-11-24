@@ -224,6 +224,11 @@ li:hover {
 }
 
 /*BOUTONS*/
+#buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .filterButton {
   background-color: white;
