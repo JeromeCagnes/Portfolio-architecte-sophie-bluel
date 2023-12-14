@@ -1,5 +1,5 @@
 // Definition des boutons et identification
-const buttons = [
+/*const buttons = [
   { label: 'Tous', id: 'noFilter' },
   { label: 'Objets', id: 'Objets' },
   { label: 'Hotels & restaurants', id: 'HotelsRestaurants' },
@@ -16,7 +16,7 @@ buttons.forEach((button) => {
   btn.id = button.id
   btn.textContent = button.label
   container.appendChild(btn)
-})
+})*/
 document
   .getElementById('loginForm')
   .addEventListener('submit', function (event) {
@@ -28,3 +28,6 @@ document
     // Ajoutez ici la logique de validation ou l'envoi des données au serveur
     console.log('Email:', email, 'Password:', password)
   })
+document.addEventListener('DOMContentLoaded', () => {
+  loadCategories()
+})

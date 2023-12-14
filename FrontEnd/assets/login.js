@@ -39,7 +39,7 @@ document
         //Je me demande si session storage ne serait pas mieux
         window.localStorage.setItem('BearerAuth', JSON.stringify(body))
         // redirection vers l'index
-        window.location.replace('/index.html')
+        window.location.replace('./index.html')
       })
       .catch((e) => {
         // gestion des erreur et affichage des messages
@@ -48,4 +48,28 @@ document
         error.innerHTML = e.message
         document.querySelector('form').prepend(error)
       })
+  })
+//  API endpoint
+const url = 'http://localhost:5678/api/users/login'
+
+// Données utilisateur
+const userData = {
+  email: 'sophie.bluel@test.tld',
+  password: 'S0phie',
+}
+
+// Requete POST
+fetch(url, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(userData),
+})
+  .then((response) => response.json())
+  .then((data) => {
+    console.log('Success:', data) // Condition success
+  })
+  .catch((error) => {
+    console.error('Error:', error) // Condition error
   })
