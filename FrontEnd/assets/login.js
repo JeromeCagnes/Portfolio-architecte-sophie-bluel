@@ -1,75 +1,57 @@
-const bearerAuth = window.localStorage.getItem('BearerAuth')
-
+// Ajout d'un écouteur d'événements sur le formulaire pour gérer la soumission
 document
   .querySelector('form')
   .addEventListener('submit', async function (event) {
-    //supprimer éventuel message d'erreur précédent
+    // Empêche le comportement de soumission par défaut du formulaire
     event.preventDefault()
+
+    // Suppression d'un précédent message d'erreur s'il existe
     const previousError = document.querySelector('.error')
     if (previousError) {
       previousError.remove()
     }
-    //creation objet données formulaire
+
+    // Récupération des données saisies dans le formulaire
     const loginFormDatas = {
       email: event.target.querySelector('[name=email]').value,
       password: event.target.querySelector('[name=password]').value,
     }
-    //création de la charge utlise au format JSON
+
+    // Conversion des données du formulaire en format JSON
     const chargeUtile = JSON.stringify(loginFormDatas)
-    // envoi des données du formulaire au serveur
+
+    // Envoi des données du formulaire au serveur via une requête POST
     await fetch('http://localhost:5678/api/users/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: chargeUtile,
     })
-      //récupération de la réponse
       .then((r) => {
-        if (r.ok === true) {
+        // Traitement des différentes réponses du serveur
+        if (r.ok) {
+          // Si la réponse est positive, conversion de la réponse en JSON
           return r.json()
         } else if (r.status === 404) {
+          // Gestion d'une erreur 404 (email non trouvé)
           throw new Error("Votre email n'existe pas dans la base de données")
         } else if (r.status === 401) {
+          // Gestion d'une erreur 401 (mot de passe invalide)
           throw new Error(
             'Votre mot de passe est invalide. Veuillez le vérifier'
           )
         }
       })
       .then((body) => {
-        //stockage de la réponse dans localStorage.
-        //Je me demande si session storage ne serait pas mieux
+        // Stockage des données de réponse (token) dans localStorage
         window.localStorage.setItem('BearerAuth', JSON.stringify(body))
-        // redirection vers l'index
+        // Redirection de l'utilisateur vers la page d'accueil après connexion
         window.location.replace('./index.html')
       })
       .catch((e) => {
-        // gestion des erreur et affichage des messages
+        // Affichage d'un message d'erreur en cas d'échec de la requête
         const error = document.createElement('div')
         error.classList.add('error')
         error.innerHTML = e.message
         document.querySelector('form').prepend(error)
       })
-  })
-//  API endpoint
-const url = 'http://localhost:5678/api/users/login'
-
-// Données utilisateur
-const userData = {
-  email: 'sophie.bluel@test.tld',
-  password: 'S0phie',
-}
-
-// Requete POST
-fetch(url, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify(userData),
-})
-  .then((response) => response.json())
-  .then((data) => {
-    console.log('Success:', data) // Condition success
-  })
-  .catch((error) => {
-    console.error('Error:', error) // Condition error
   })

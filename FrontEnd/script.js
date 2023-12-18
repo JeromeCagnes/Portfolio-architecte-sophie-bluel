@@ -1,22 +1,4 @@
-// Definition des boutons et identification
-/*const buttons = [
-  { label: 'Tous', id: 'noFilter' },
-  { label: 'Objets', id: 'Objets' },
-  { label: 'Hotels & restaurants', id: 'HotelsRestaurants' },
-  { label: 'Appartements', id: 'Appartements' },
-]
-
-// Selection du container
-const container = document.getElementById('buttonContainer')
-
-// Creation des boutons dans le container
-buttons.forEach((button) => {
-  const btn = document.createElement('button')
-  btn.className = 'filterButton'
-  btn.id = button.id
-  btn.textContent = button.label
-  container.appendChild(btn)
-})*/
+// Gestion de l'envoi du formulaire de connexion
 document
   .getElementById('loginForm')
   .addEventListener('submit', function (event) {
@@ -28,6 +10,8 @@ document
     // Ajoutez ici la logique de validation ou l'envoi des données au serveur
     console.log('Email:', email, 'Password:', password)
   })
+
+// Chargement des catégories après le chargement complet du DOM
 document.addEventListener('DOMContentLoaded', () => {
   loadCategories()
 })

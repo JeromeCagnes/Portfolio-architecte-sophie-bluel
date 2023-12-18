@@ -25,7 +25,7 @@ async function loadCategories() {
 }
 
 /**
- * Diplaying works in gallery
+ * Affichage des projets dans galerie
  * @param {JSONobject} works
  */
 function displayWorks(works) {

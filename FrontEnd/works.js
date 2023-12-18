@@ -1,73 +1,77 @@
+// Récupération des travaux depuis le localStorage ou via une requête API
 let works = JSON.parse(window.localStorage.getItem('works'))
 if (works === null) {
   works = await getWorks()
 }
 
-//fetch request for categories
+// Récupération des catégories depuis le localStorage ou via une requête API
 let categories = JSON.parse(window.localStorage.getItem('categories'))
 if (categories === null) {
   categories = await getCategories()
 }
 
-//display when user logged
-//checking bearerAuth
+// Traitement pour les utilisateurs connectés
 const bearerAuth = JSON.parse(window.localStorage.getItem('bearerAuth'))
 if (bearerAuth && bearerAuth.token) {
-  //Admin bar creation
+  // Création de la barre d'administration
   const adminBar = document.createElement('div')
   adminBar.classList.add('admin-bar')
-  adminBar.innerHTML = `<div class="admin-container">
-                            <div class="modify-container">
-                                <img src="./assets/icons/modify.png" alt="modifier" id="modify">
-                                Mode édition
-                            </div>
-                            <button class="publish">Publier les changements</button>
-                        </div>`
-  // displays top adminbar
+  adminBar.innerHTML = `
+    <div class="admin-container">
+      <div class="modify-container">
+        <img src="./assets/icons/modify.png" alt="modifier" id="modify">
+        Mode édition
+      </div>
+      <button class="publish">Publier les changements</button>
+    </div>`
   document.querySelector('body').prepend(adminBar)
-  // login becomes logout
+
+  // Modification du lien de connexion en déconnexion
   const loginLi = document.querySelector('.login')
   loginLi.innerHTML = `<a href="#">logout</a>`
   loginLi.classList.replace('login', 'logout')
-  // Modify button creation
+
+  // Création des boutons de modification
   displayModifyContainers('#introduction figure', '#modal1', 'append')
   displayModifyContainers('article', '#modal2', 'prepend')
   displayModifyContainers('#portfolio', '#modal3-1', 'prepend')
-  // add margin in header
+
+  // Ajout de marge en tête
   document.querySelector('header').style.margin = '100px 0 50px 0'
-  //hidding filters
+
+  // Masquage des filtres
   document.querySelector('.filters-container').style.display = 'none'
 }
 
-// logout
+// Gestion de la déconnexion
 const logout = document.querySelector('.logout')
 if (logout) {
   logout.addEventListener('click', function () {
-    //Deleting Bearer Auth in local storage
     window.localStorage.removeItem('bearerAuth')
-    //deleting admin bar
-    const adminBar = document.querySelector('.admin-bar')
-    adminBar.remove()
-    //logout becomes login
+    document.querySelector('.admin-bar').remove()
+
+    // Remplacement du lien de déconnexion par connexion
     const logoutLi = document.querySelector('.logout')
     logoutLi.innerHTML = `<a href="/login.html">login</a>`
     logoutLi.classList.replace('logout', 'login')
-    // disappering of modify-containers
-    const modifyContainers = document.querySelectorAll('.modify-container')
-    modifyContainers.forEach((element) => element.remove())
-    // appearing of filters
+
+    // Suppression des conteneurs de modification
+    document
+      .querySelectorAll('.modify-container')
+      .forEach((element) => element.remove())
+
+    // Réaffichage des filtres
     document.querySelector('.filters-container').style.display = 'flex'
   })
 }
 
-//Lauching
+// Initialisation de la galerie
 document.querySelector('.gallery').innerHTML = ''
 displayWorks(works)
 displayThumbnails(works)
 displayCategories(categories)
 
-//Filter buttons processing
-// all items
+// Traitement des boutons de filtre
 const buttonAll = document.getElementById('all')
 buttonAll.addEventListener('click', function () {
   document.querySelector('.gallery').innerHTML = ''
@@ -75,8 +79,8 @@ buttonAll.addEventListener('click', function () {
   displayWorks(works)
 })
 
-// Objets, appartement, hotels & restaurants from db
-for (let category of categories) {
+// Traitement des boutons de catégories spécifiques
+categories.forEach((category) => {
   const categoryName = category.name.replaceAll(' ', '-').toLowerCase()
   const buttonName = document.getElementById(categoryName)
   buttonName.addEventListener('click', function () {
@@ -87,4 +91,4 @@ for (let category of categories) {
     activate(categoryName)
     displayWorks(worksFiltered)
   })
-}
+})
