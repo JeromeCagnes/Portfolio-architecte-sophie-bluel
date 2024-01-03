@@ -9,6 +9,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
 		rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
@@ -42,7 +43,15 @@
 			</article>
 		</section>
 		<section id="portfolio">
-			<h2>Mes Projets</h2>
+			<div class="portfolio-header">
+				<h2>Mes Projets</h2>
+				<p id="editWorksBtn" class="editWorksBtn">
+					<a href="#modale" class="openModale">
+						<i class="fa fa-light fa-pen-to-square" aria-hidden="true"></i>
+						modifier
+					</a>
+				</p>
+			</div>
 			<div id="buttonContainer"></div>
 
 			<div class="gallery">
@@ -135,7 +144,8 @@
 
 	<aside id="modal3-2" class="modal-window" aria-hidden="true" role="dialog" aria-modal="false"
 		aria-labelledby="titlemodal" style="display: none;">
-		<section class="modal-wrapper">
+		<div class="modal-wrapper">
+			<button class="js-modal-close">Fermer la boite modale</button>
 			<div class="button-container ">
 				<a href="#" class="modal-back" title="Retour">
 					<img src="assets/icons/arrow_back.svg" alt="Retour">
@@ -165,13 +175,14 @@
 					<input type="submit" value="Valider">
 				</form>
 			</div>
-		</section>
+		</div>
 	</aside>
 	<footer>
 		<!-- Contenu du pied de page -->
 	</footer>
 	<script src="works-functions.js"></script>
 	<script src="script.js"></script>
+	<script src="modal.js"></script>
 	<script type="module" src="works.js"></script>
 	<script src="api-handler.js"></script>
 
