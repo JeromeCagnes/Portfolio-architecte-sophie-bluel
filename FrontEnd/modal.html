@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+   <meta charset="UTF-8">
+   <title>Modale Galerie Photo</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="path_to_your_stylesheet.css">
+   <link rel="stylesheet" href="./assets/style.css">
+
+</head>
+
+<body>
+   <div class="modal-background">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h2>Galerie Photo</h2>
+            <span class="modal-close">&times;</span>
+         </div>
+         <div class="gallery-container">
+            <!-- Ajoutez vos éléments de galerie ici -->
+            <div class="gallery-item">
+               <img src="chemin_vers_image.jpg" alt="Nom de l'image">
+               <button class="edit-button">éditer</button>
+            </div>
+            <!-- Répétez les éléments de galerie selon le nombre d'images -->
+         </div>
+      </div>
+   </div>
+
+   <script>
+      // JavaScript pour fermer la modale
+      document.querySelector('.modal-close').addEventListener('click', function () {
+         document.querySelector('.modal-background').style.display = 'none';
+      });
+   </script>
+</body>
+
+</html>

@@ -371,7 +371,7 @@ footer nav ul {
   text-decoration-line: underline;
   color: #3d3d3d;
 }
-/*MODAL*/
+/*BOUTON MODALE*/
 .portfolio-header {
   display: flex;
   justify-content: center;
@@ -399,222 +399,14 @@ footer nav ul {
   font-weight: bold;
   cursor: pointer;
 }
-.modal-window {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-}
-.modal-wrapper {
-  /*display: flex;
-	justify-content: space-between;*/
-  background-color: white;
-  max-width: calc(100vw - 20px);
-  max-height: calc(100vh - 20px);
-  border: 1px solid grey;
-  margin: 0 auto;
-  border-radius: 10px;
-  width: 100%;
-  overflow: auto;
-}
-.button-container {
-  display: flex;
-  justify-content: flex-end;
-  height: 24px;
-  width: 100%;
-  margin: 32px auto 10px auto;
-  padding: 0 30px;
-}
-.button-container a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 24px;
-  height: 24px;
-}
-#thumbnail-gallery {
-  max-width: 630px;
-  margin: auto;
-  padding: 0 105px;
-}
-#modal3-2 .button-container {
-  justify-content: space-between;
+
+@media (max-width: 768px) {
+  .modal-wrapper {
+    width: 95%;
+    margin: 5% auto;
+  }
 }
 
-#add-picture {
-  max-width: 630px;
-  margin: auto;
-  padding-top: 50px;
-}
-#add-picture form {
-  text-align: left;
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  max-width: 630px;
-  padding: 0 105px;
-  width: 100%;
-}
-#add-picture #image-input {
-  box-shadow: none;
-}
-#add-picture select {
-  background-color: white;
-  height: 50px;
-  font-size: 1.2em;
-  border: none;
-  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
-.upload-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 170px;
-  background-color: #e8f1f7;
-}
-.preview {
-  height: 170px;
-}
-.thumbnail-gallery-container {
-  display: flex;
-  flex-wrap: wrap;
-  /*justify-content: space-between;*/
-}
-#thumbnail-gallery h2 {
-  margin-bottom: 46px;
-}
-.thumbnail-gallery-container figure {
-  position: relative;
-  margin-bottom: 10px;
-  text-align: left;
-  font-size: 0.85rem;
-  z-index: 1;
-  margin-right: 5px;
-}
-.thumbnail-gallery-container figure img:hover + .enlarge,
-.figure-a:focus + .enlarge,
-.figure-a:hover + .enlarge {
-  display: flex;
-  cursor: pointer;
-  z-index: 1;
-}
-.figure-a {
-  display: block;
-}
-.thumbnail-gallery-container img {
-  position: relative;
-  width: 78px;
-  height: 104px;
-  object-fit: cover;
-  z-index: 1;
-}
-.trashbin,
-.enlarge {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: black;
-  width: 17px;
-  height: 17px;
-  border-radius: 2px;
-  cursor: pointer;
-}
-.trashbin {
-  z-index: 1;
-}
-.enlarge {
-  right: 27px;
-  z-index: 0;
-  cursor: pointer;
-}
-.enlarge:focus {
-  z-index: 1;
-}
-.enlarge:hover {
-  z-index: 1;
-}
-.trashbin img {
-  width: 9px;
-  height: 9px;
-}
-.enlarge img {
-  width: 11px;
-  height: 11px;
-}
-.gallery-preview {
-  width: 100%;
-  margin-bottom: 10px;
-  object-fit: cover;
-}
-#thumbnail-gallery input[type='submit'] {
-  margin: 38px auto 23px auto;
-}
-.delete {
-  display: flex;
-  justify-content: center;
-  color: red;
-  display: block;
-  margin-bottom: 48px;
-}
-.upload-label {
-  display: inline-block;
-  text-align: center;
-  font-size: 1rem;
-  background-color: #cbd6dc;
-  color: #306685;
-  padding: 10px 33px;
-  border-radius: 50px;
-  cursor: pointer;
-  margin: 21px 0 7px 0;
-}
-.upload-label:focus-within {
-  outline: 3px solid;
-}
-input[type='file'] {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  overflow: hidden;
-  left: -100px;
-  white-space: nowrap;
-  border: 0;
-}
-.separator {
-  /* fonctionne pas */
-  display: block;
-  margin: 47px 0 0 0;
-  width: 100%;
-  height: 1px;
-  background-color: #b3b3b3;
-}
-input[type='submit'] {
-  font-family: 'Syne';
-  font-weight: 700;
-  color: white;
-  background-color: #1d6154;
-  margin: 2em auto;
-  width: 180px;
-  text-align: center;
-  border-radius: 60px;
-}
-
-input[type='submit']:hover {
-  background-color: #0e2f28;
-}
-input[type='submit']:focus {
-  background-color: #0e2f28;
-}
 .fa {
   -webkit-font-smoothing: antialiased;
   display: var(--fa-display, inline-block);
@@ -636,4 +428,109 @@ i {
   font: inherit;
   vertical-align: baseline;
   cursor: pointer;
+}
+/*MODALE*/
+
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  padding: 20px;
+  width: 80%;
+  max-width: 960px;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #ccc;
+}
+.modal-header h2 {
+  margin: 0;
+  color: #333;
+  font-size: 24px;
+}
+.modal-close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 32px;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Style pour la galerie d'images */
+.gallery-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  padding: 0 15px;
+}
+
+.gallery-item {
+  position: relative;
+  background: #f5f5f5;
+  overflow: hidden;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.edit-button {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: #ffa500;
+  border: none;
+  padding: 5px 10px;
+  color: white;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button:hover {
+  background-color: #cc8400;
+}
+
+.edit-button span {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive design  */
+@media (max-width: 768px) {
+  .gallery-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-container {
+    grid-template-columns: 1fr;
+  }
 }
