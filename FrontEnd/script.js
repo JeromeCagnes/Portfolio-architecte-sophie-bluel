@@ -29,7 +29,21 @@ function displayThumbnails(works) {
 }
 
 function displayCategories(categories) {
-  // Logique pour afficher les catégories...
+  // Selection du container
+  const container = document.getElementById('buttonContainer')
+  const btn = document.createElement('button')
+  btn.className = 'filterButton'
+  btn.id = 0
+  btn.textContent = 'tous'
+  container.appendChild(btn)
+  // Creation des boutons dans le container
+  categories.forEach((button) => {
+    const btn = document.createElement('button')
+    btn.className = 'filterButton'
+    btn.id = button.id
+    btn.textContent = button.name
+    container.appendChild(btn)
+  })
 }
 
 function displayModifyContainers(selector, href, method) {
@@ -57,22 +71,35 @@ async function initializeApp() {
   // Logique pour les utilisateurs connectés
   const bearerAuth = JSON.parse(window.localStorage.getItem('bearerAuth'))
   if (bearerAuth && bearerAuth.token) {
-    // Code pour créer la barre d'administration et gérer la déconnexion...
   }
-
-  // Logique supplémentaire si nécessaire...
 }
 
 // Écouteur d'événement pour le chargement du DOM
 document.addEventListener('DOMContentLoaded', initializeApp)
 
-// Gestion de l'envoi du formulaire de connexion
-document
-  .getElementById('loginForm')
-  .addEventListener('submit', function (event) {
-    event.preventDefault()
-    const email = document.getElementById('email').value
-    const password = document.getElementById('password').value
-    console.log('Email:', email, 'Password:', password)
-    // Ajouter la logique d'envoi au serveur
-  })
+//MODALE
+// Obtenir la modale
+var modal = document.getElementById('myModal')
+
+// Obtenir le bouton qui ouvre la modale
+var btn = document.getElementById('editWorksBtn')
+
+// Obtenir l'élément <span> qui ferme la modale
+var span = document.getElementsByClassName('close')[0]
+
+// Lorsque l'utilisateur clique sur le bouton, ouvrez la modale
+btn.onclick = function () {
+  modal.style.display = 'block'
+}
+
+// Lorsque l'utilisateur clique sur <span> (x), fermez la modale
+span.onclick = function () {
+  modal.style.display = 'none'
+}
+
+// Lorsque l'utilisateur clique n'importe où en dehors de la modale, fermez-la
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = 'none'
+  }
+}
