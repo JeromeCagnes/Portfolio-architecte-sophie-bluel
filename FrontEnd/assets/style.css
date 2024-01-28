@@ -547,7 +547,7 @@ i {
   color: black;
   text-decoration: none;
 }
-.add-photo-btn {
+.addPhotoBtn {
   margin-top: 20px;
   padding: 10px 9px;
   height: 36px;
@@ -568,10 +568,10 @@ i {
   transition: background-color 0.3s;
 }
 
-.add-photo-btn:hover {
+.addPhotoBtn:hover {
   cursor: pointer;
 }
-.add-photo-btn:active {
+.addPhotoBtn:active {
   background-color: #16473b;
 }
 .gallery-container {
