@@ -60,23 +60,6 @@ function displayImages(data) {
 
   data.forEach((item) => {
     const link = document.createElement('a')
-    link.href = item.detailUrl || '#' // Remplacer par l'URL de détail appropriée
-
-    const img = document.createElement('img')
-    img.src = item.imageUrl
-    img.alt = item.title
-    img.style.width = '200px'
-
-    link.appendChild(img)
-    imagesContainer.appendChild(link)
-  })
-}
-// Fonction pour afficher les images
-function displayImages(data) {
-  const imagesContainer = document.getElementById('gallery')
-
-  data.forEach((item) => {
-    const link = document.createElement('a')
     link.href = item.detailUrl || '#'
 
     const img = document.createElement('img')
@@ -85,65 +68,77 @@ function displayImages(data) {
     img.style.width = '200px'
 
     link.appendChild(img)
-
-    // Créer un élément pour le titre
-    const title = document.createElement('p')
-    title.textContent = item.title
-    title.style.textAlign = 'center'
-
     imagesContainer.appendChild(link)
   })
 }
+/*----------------------------------------*/
 
-// Fonction pour charger les images dans la modale
-function loadImagesToModal(data) {
-  const modalImagesContainer = document.getElementById('myModal') // Assurez-vous que cet ID correspond à un élément dans votre modale
-  modalImagesContainer.innerHTML = '' // Nettoie les anciennes images avant de charger les nouvelles
+// Fonction pour afficher les miniatures dans la fenêtre modale
+function displayThumbnailsInModal(works) {
+  // Sélection du conteneur de la modale
+  const modalGallery = document.querySelector('.modal-gallery')
 
-  data.forEach((item) => {
-    const img = document.createElement('img')
-    img.src = item.imageUrl
-    img.alt = item.title
-    img.style.width = '100px' // Taille des miniatures
-    modalImagesContainer.appendChild(img)
+  // Vérifier si le conteneur existe
+  if (!modalGallery) {
+    console.error('Modal gallery container not found')
+    return
+  }
+
+  // Effacer le contenu précédent
+  modalGallery.innerHTML = ''
+
+  // Parcourir chaque élément de travail et créer une miniature
+  works.forEach((workItem) => {
+    // Elément 'div' pour contenir l'image et l'icône de suppression
+    const thumbnailContainer = document.createElement('div')
+    thumbnailContainer.classList.add('thumbnail-container')
+
+    // Elément 'a' pour chaque image
+    const thumbnailLink = document.createElement('a')
+    thumbnailLink.href = workItem.detailUrl || '#'
+
+    // Création de l'élément 'img' pour la miniature
+    const thumbnailImage = document.createElement('img')
+    thumbnailImage.src = workItem.imageUrl
+    thumbnailImage.alt = workItem.title
+    thumbnailImage.style.width = '77.36px'
+    thumbnailImage.style.height = '108.364px'
+    thumbnailImage.classList.add('thumbnail-image')
+
+    // Ajouter l'image au lien
+    thumbnailLink.appendChild(thumbnailImage)
+    // Création de l'icône de suppression
+    const deleteIcon = document.createElement('span')
+    deleteIcon.innerHTML = '&#128465;' // Icône de poubelle
+    deleteIcon.classList.add('delete-icon')
+    deleteIcon.onclick = function () {
+      // Fonction pour supprimer l'élément de travail
+      works.splice(index, 1) // Supprime l'élément de l'array
+      displayThumbnailsInModal(works) // Met à jour la galerie
+    }
+    // Ajouter le lien à la galerie modale
+    modalGallery.appendChild(thumbnailLink)
+
+    // Ajouter l'icône de suppression au conteneur de la miniature
+    thumbnailContainer.appendChild(deleteIcon)
+
+    // Ajouter le lien de l'image au conteneur de la miniature
+    thumbnailContainer.appendChild(thumbnailLink)
+
+    // Ajouter le conteneur de la miniature à la galerie modale
+    modalGallery.appendChild(thumbnailContainer)
   })
 }
 
-// Gestion des modales
-function setupModalHandlers() {
-  var modal = document.getElementById('myModal')
-  var btn = document.getElementById('editWorksBtn')
-  var span = document.getElementsByClassName('close')[0]
-
-  if (btn) {
-    btn.onclick = function () {
-      modal.style.display = 'block'
-      // Supposons que 'data' est votre tableau d'images
-      loadImagesToModal(data) // Appelle la fonction pour charger les images dans la modale
-    }
+// Appel de la fonction pour afficher les miniatures dans la fenêtre modale
+fetchData().then((works) => {
+  if (works) {
+    displayThumbnailsInModal(works)
   }
+})
 
-  if (span) {
-    span.onclick = function () {
-      modal.style.display = 'none'
-    }
-  }
+/*--------------*/
 
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = 'none'
-    }
-  }
-}
-/*
-function displayModifyContainers(selector, href, method) {
-  // Logique pour afficher les conteneurs de modification...
-}
-
-function activate(element) {
-  // Logique pour activer/désactiver les filtres...
-}
-*/
 // Fonction pour initialiser l'application
 async function initializeApp() {
   // Récupération et affichage des travaux
