@@ -17,7 +17,6 @@ function displayWorks(works) {
   const container = document.getElementById('gallery')
   works.forEach((workItem) => {
     const fig = document.createElement('figure')
-    // Ajoutez ici la logique pour remplir et afficher chaque élément de travail
     container.appendChild(fig)
     console.log(workItem)
   })
@@ -177,8 +176,8 @@ function displayImages(data) {
   data.forEach((item) => {
     // Créer une balise a pour chaque lien
     const link = document.createElement('gallery')
-    // Définir le href de la balise a, par exemple vers une page de détail ou un autre lien
-    link.href = '"http://localhost:5678/images/abajour-tahina1651286843956.png' // Remplacez 'VotreURLIci' par l'URL souhaitée
+
+    link.href = '"http://localhost:5678/images/abajour-tahina1651286843956.png'
 
     // Créer une balise img pour chaque image
     const img = document.createElement('img')
@@ -233,18 +232,41 @@ window.onclick = function (event) {
   }
 }
 
+// Lorsque l'utilisateur clique sur le bouton 'Ajouter une photo', ouvrir la modale
 addPhotoBtn.onclick = function () {
-  addPhotoModal.style.display = 'block'
+  document.getElementById('addPhotoModal').style.display = 'block'
 }
+// Gestionnaire pour soumettre le formulaire de téléchargement de l'image
+document.getElementById('uploadForm').onsubmit = function (event) {
+  event.preventDefault() // Pour empêcher le formulaire de soumettre normalement
 
-// Lorsque l'utilisateur clique sur <span> (x), fermez la modale
-span.onclick = function () {
-  addPhotoModal.style.display = 'none'
-}
+  var fileInput = document.getElementById('photo-upload')
+  var titleInput = document.getElementById('photo-title')
+  var categoryIdInput = document.getElementById('photo-categoryId')
 
-// Lorsque l'utilisateur clique n'importe où en dehors de la modale, fermez-la
-window.onclick = function (event) {
-  if (event.target == addPhotoModal) {
-    addPhotoModal.style.display = 'none'
-  }
+  // Créer FormData et ajouter les fichiers
+  var formData = new FormData()
+  formData.append('image', fileInput.files[0])
+  formData.append('title', titleInput.value)
+  formData.append('categoryId', categoryIdInput.value)
+  // Ajoutez d'autres champs si nécessaire
+
+  // Envoyer le formulaire à l'API
+  fetch('http://localhost:5678/api/works', {
+    method: 'POST',
+    body: formData,
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json()
+      }
+      throw new Error('Network response was not ok.')
+    })
+    .then((data) => {
+      console.log('Image uploaded:', data)
+      document.getElementById('addPhotoModal').style.display = 'none'
+    })
+    .catch((error) => {
+      console.error('Upload error:', error)
+    })
 }
