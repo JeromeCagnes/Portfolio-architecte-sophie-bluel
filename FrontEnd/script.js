@@ -17,6 +17,11 @@ function displayWorks(works) {
   const container = document.getElementById('gallery')
   works.forEach((workItem) => {
     const fig = document.createElement('figure')
+    // Créer une balise img pour chaque image
+    const img = document.createElement('img')
+    img.src = workItem.imageUrl
+    img.alt = workItem.title
+    fig.appendChild(img)
     container.appendChild(fig)
     console.log(workItem)
   })
@@ -53,23 +58,7 @@ function displayCategories(categories) {
     container.appendChild(btn)
   })
 }
-// Fonction pour afficher les images
-function displayImages(data) {
-  const imagesContainer = document.getElementById('gallery')
 
-  data.forEach((item) => {
-    const link = document.createElement('a')
-    link.href = item.detailUrl || '#'
-
-    const img = document.createElement('img')
-    img.src = item.imageUrl
-    img.alt = item.title
-    img.style.width = '200px'
-
-    link.appendChild(img)
-    imagesContainer.appendChild(link)
-  })
-}
 /*----------------------------------------*/
 
 // Fonction pour afficher les miniatures dans la fenêtre modale
@@ -106,15 +95,41 @@ function displayThumbnailsInModal(works) {
 
     // Ajouter l'image au lien
     thumbnailLink.appendChild(thumbnailImage)
+
     // Création de l'icône de suppression
     const deleteIcon = document.createElement('span')
     deleteIcon.innerHTML = '&#128465;' // Icône de poubelle
     deleteIcon.classList.add('delete-icon')
     deleteIcon.onclick = function () {
-      // Fonction pour supprimer l'élément de travail
-      works.splice(index, 1) // Supprime l'élément de l'array
-      displayThumbnailsInModal(works) // Met à jour la galerie
+      // Récupérer le token d'authentification du localStorage
+      const bearerAuth = JSON.parse(window.localStorage.getItem('BearerAuth'))
+      const token = bearerAuth ? bearerAuth.token : null
+
+      // Vérifier si le token existe
+      if (token) {
+        // Appel de l'API pour supprimer un élément
+        fetch('http://localhost:5678/api/works/1', {
+          method: 'DELETE',
+          headers: {
+            Accept: '*/*',
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((response) => {
+            if (response.ok) {
+              console.log('Élément supprimé avec succès.')
+            } else {
+              console.error('Erreur lors de la suppression de l’élément.')
+            }
+          })
+          .catch((error) => {
+            console.error('Erreur lors de la connexion à l’API:', error)
+          })
+      } else {
+        console.error("Token d'authentification non trouvé ou invalide.")
+      }
     }
+
     // Ajouter le lien à la galerie modale
     modalGallery.appendChild(thumbnailLink)
 
@@ -162,35 +177,11 @@ function fetchImages() {
   fetch('http://localhost:5678/api/works')
     .then((response) => response.json())
     .then((data) => {
-      displayImages(data)
+      /*    displayImages(data)*/
     })
     .catch((error) =>
       console.error('Erreur lors de la récupération des images:', error)
     )
-}
-
-// Fonction pour afficher les images
-function displayImages(data) {
-  const imagesContainer = document.getElementById('gallery')
-
-  data.forEach((item) => {
-    // Créer une balise a pour chaque lien
-    const link = document.createElement('gallery')
-
-    link.href = '"http://localhost:5678/images/abajour-tahina1651286843956.png'
-
-    // Créer une balise img pour chaque image
-    const img = document.createElement('img')
-    img.src = item.imageUrl
-    img.alt = item.title
-    //img.style.width = '313px'
-
-    // Ajouter l'image à la balise a
-    link.appendChild(img)
-
-    // Ajouter le lien au conteneur
-    imagesContainer.appendChild(link)
-  })
 }
 
 // Appeler la fonction au chargement de la page
