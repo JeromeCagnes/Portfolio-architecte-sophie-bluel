@@ -118,6 +118,11 @@ function displayThumbnailsInModal(works) {
           .then((response) => {
             if (response.ok) {
               console.log('Élément supprimé avec succès.')
+              // Suppression ou masquage visuel de l'élément
+              const parentElement = deleteIcon.parentElement
+              if (parentElement) {
+                parentElement.style.display = 'none'
+              }
             } else {
               console.error('Erreur lors de la suppression de l’élément.')
             }
