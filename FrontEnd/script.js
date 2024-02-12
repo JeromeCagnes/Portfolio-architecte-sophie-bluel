@@ -97,9 +97,10 @@ function displayThumbnailsInModal(works) {
     thumbnailLink.appendChild(thumbnailImage)
 
     // Création de l'icône de suppression
-    const deleteIcon = document.createElement('span')
-    deleteIcon.innerHTML = '&#128465;' // Icône de poubelle
-    deleteIcon.classList.add('delete-icon')
+    const deleteIcon = document.createElement('i')
+    deleteIcon.innerHTML = '<i class="fa-solid fa-trash-can"></i>' // Icône de poubelle
+    deleteIcon.setAttribute('aria-hidden', 'true')
+    deleteIcon.classList.add('fa-trash-can', 'delete-icon')
     deleteIcon.onclick = function () {
       // Récupérer le token d'authentification du localStorage
       const bearerAuth = JSON.parse(window.localStorage.getItem('BearerAuth'))
@@ -108,7 +109,7 @@ function displayThumbnailsInModal(works) {
       // Vérifier si le token existe
       if (token) {
         // Appel de l'API pour supprimer un élément
-        fetch('http://localhost:5678/api/works/1', {
+        fetch(`http://localhost:5678/api/works/${workItem.id}`, {
           method: 'DELETE',
           headers: {
             Accept: '*/*',
@@ -118,10 +119,9 @@ function displayThumbnailsInModal(works) {
           .then((response) => {
             if (response.ok) {
               console.log('Élément supprimé avec succès.')
-              // Suppression ou masquage visuel de l'élément
               const parentElement = deleteIcon.parentElement
               if (parentElement) {
-                parentElement.style.display = 'none'
+                parentElement.remove()
               }
             } else {
               console.error('Erreur lors de la suppression de l’élément.')
@@ -182,7 +182,7 @@ function fetchImages() {
   fetch('http://localhost:5678/api/works')
     .then((response) => response.json())
     .then((data) => {
-      /*    displayImages(data)*/
+      /*    afficher les images*/
     })
     .catch((error) =>
       console.error('Erreur lors de la récupération des images:', error)
@@ -201,7 +201,7 @@ function displayThumbnails(works) {
   // Logique pour afficher les miniatures...
 }
 
-//MODALE
+// MODALE
 // Obtenir la modale
 var modal = document.getElementById('myModal')
 
@@ -211,43 +211,34 @@ var btn = document.getElementById('editWorksBtn')
 // Obtenir l'élément <span> qui ferme la modale
 var span = document.getElementsByClassName('close')[0]
 
-// Lorsque l'utilisateur clique sur le bouton, ouvrez la modale
+// Lorsque l'utilisateur clique sur le bouton, ouvrir la modale
 btn.onclick = function () {
+  var modal2 = document.getElementById('modal2')
+  modal2.style.display = 'none'
+  var modal1 = document.getElementById('modal1')
+  modal1.style.display = 'flex'
   modal.style.display = 'block'
 }
 
-// Lorsque l'utilisateur clique sur <span> (x), fermez la modale
+// Lorsque l'utilisateur clique sur <span> (x), fermer la modale
 span.onclick = function () {
   modal.style.display = 'none'
 }
 
-// Lorsque l'utilisateur clique n'importe où en dehors de la modale, fermez-la
+// Lorsque l'utilisateur clique n'importe où en dehors de la modale, la fermer
 window.onclick = function (event) {
-  if (event.target == modal) {
+  if (event.target === modal) {
     modal.style.display = 'none'
   }
 }
 
-// Lorsque l'utilisateur clique sur le bouton 'Ajouter une photo', ouvrir la modale
-addPhotoBtn.onclick = function () {
-  document.getElementById('addPhotoModal').style.display = 'block'
-}
-// Gestionnaire pour soumettre le formulaire de téléchargement de l'image
-document.getElementById('uploadForm').onsubmit = function (event) {
-  event.preventDefault() // Pour empêcher le formulaire de soumettre normalement
+//FORMULAIRE D'AJOUT
 
-  var fileInput = document.getElementById('photo-upload')
-  var titleInput = document.getElementById('photo-title')
-  var categoryIdInput = document.getElementById('photo-categoryId')
+function uploadImages(event) {
+  event.preventDefault()
 
-  // Créer FormData et ajouter les fichiers
-  var formData = new FormData()
-  formData.append('image', fileInput.files[0])
-  formData.append('title', titleInput.value)
-  formData.append('categoryId', categoryIdInput.value)
-  // Ajoutez d'autres champs si nécessaire
+  var formData = new FormData(document.getElementById('modalEditWorkForm'))
 
-  // Envoyer le formulaire à l'API
   fetch('http://localhost:5678/api/works', {
     method: 'POST',
     body: formData,
@@ -256,13 +247,27 @@ document.getElementById('uploadForm').onsubmit = function (event) {
       if (response.ok) {
         return response.json()
       }
-      throw new Error('Network response was not ok.')
+      throw new Error("Échec de l'envoi des données")
     })
     .then((data) => {
-      console.log('Image uploaded:', data)
-      document.getElementById('addPhotoModal').style.display = 'none'
+      console.log('Succès:', data)
     })
     .catch((error) => {
-      console.error('Upload error:', error)
+      console.error("Erreur lors de l'upload des images:", error)
     })
 }
+// Sélectionner le formulaire
+var form = document.getElementById('modalEditWorkForm')
+
+//  Ecouteur d'événement sur le formulaire d'ajout
+form.addEventListener('submit', uploadImages)
+var addPhotoLabel = document.getElementById('newImage')
+
+addPhotoLabel.addEventListener('click', function () {
+  var elementArendreVisible = document.getElementById('modal2')
+  if (elementArendreVisible) {
+    elementArendreVisible.style.display = 'flex'
+    var modal1 = document.getElementById('modal1')
+    modal1.style.display = 'none'
+  }
+})
