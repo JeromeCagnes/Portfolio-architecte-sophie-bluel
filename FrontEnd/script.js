@@ -263,7 +263,9 @@ var form = document.getElementById('modalEditWorkForm')
 form.addEventListener('submit', uploadImages)
 var addPhotoLabel = document.getElementById('newImage')
 
-addPhotoLabel.addEventListener('click', function () {
+addPhotoLabel.addEventListener('click', function () {})
+var addPhotoBtn = document.getElementById('addPhotoBtn')
+addPhotoBtn.addEventListener('click', function () {
   var elementArendreVisible = document.getElementById('modal2')
   if (elementArendreVisible) {
     elementArendreVisible.style.display = 'flex'
