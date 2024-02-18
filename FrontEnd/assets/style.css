@@ -439,6 +439,16 @@ i {
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
 }
+.modal-title {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 30px;
+  text-align: center;
+  color: #000000;
+  margin-top: 20px;
+}
 .modal-gallery {
   display: grid;
   grid-template-columns: repeat(5, 78.123px);
@@ -499,8 +509,6 @@ i {
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 50%;
-  max-height: 90vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -509,6 +517,8 @@ i {
   left: 50%;
   transform: translate(-50%, -50%);
   overflow: hidden;
+  width: 630px;
+  height: 100%;
 }
 
 .gallery-title {
@@ -533,7 +543,7 @@ i {
   font-weight: bold;
   height: 24px;
   cursor: pointer;
-  margin-top: 26px;
+  margin-top: 30px;
   margin-right: 30px;
 }
 
@@ -620,7 +630,22 @@ i {
   border-radius: 10px;
   display: none;
 }
-
+.modal-box-ajout-photo .modal-close {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.close-icon,
+.close-icon-2,
+.back-icon {
+  cursor: pointer;
+}
+.back-icon {
+  position: absolute;
+  left: 0;
+  margin-top: 10px;
+  margin-left: 20px;
+}
 .modalEditWork .containerForIconInSecondWindowOfModal {
   display: flex;
   flex-direction: row;
@@ -630,13 +655,16 @@ i {
 }
 
 #modalEditWorkForm .modalContentNewPhoto {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px 0 19px 0;
-  background-color: #e8f1f7;
+  background: #e8f1f7;
   border-radius: 3px;
-  margin: 35px 105px 0 105px;
+  height: 174px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  position: relative;
+  margin-top: 20px;
 }
 
 .modalContentNewPhoto i {
@@ -657,7 +685,25 @@ i {
   padding: 10px 33px;
   cursor: pointer;
 }
-
+.photo-upload-button {
+  width: 173px;
+  height: 36px;
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  background: #cbd6dc;
+  border-radius: 50px;
+  cursor: pointer;
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 36px;
+  text-align: center;
+  color: #306685;
+  border: 1px solid #cbd6dc;
+  cursor: pointer;
+}
 .modalContentNewPhoto #formImage {
   margin-top: -36px;
   width: 173px;
@@ -679,7 +725,6 @@ i {
   display: flex;
   flex-direction: column;
   text-align: left;
-  padding: 10px 105px 0 105px;
 }
 
 .modalContentNewCategoryTitle input[type='text'],
@@ -691,10 +736,17 @@ select {
 
 .modalContentNewCategoryTitle #form-title,
 #form-category {
-  color: #444444;
-  padding-left: 16px;
+  background: #ffffff;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  height: 51px;
+  border: none;
+  padding: 0 28px 0 16px;
   font-family: 'Work Sans';
-  font-size: 1em;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #444444;
 }
 
 .modalContentNewCategoryTitle label {
@@ -703,21 +755,28 @@ select {
 }
 
 .modalContentNewCategoryTitle .borderInSecondWindowOfModal {
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 45px;
+  border-top: 1px solid #b3b3b3;
+  margin-top: 47px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 #modalEditWorkForm input[type='submit'] {
+  background: #a7a7a7;
   border-radius: 60px;
-  margin: 30px auto 45px;
-  padding: 10px 90px;
-  border: none;
-  color: #ffffff;
+  font-family: 'Syne';
   font-style: normal;
   font-weight: 700;
-  font-size: 1em;
-  background-color: #a7a7a7;
+  font-size: 14px;
+  line-height: 17px;
+  width: 237px;
+  height: 36px;
+  border: none;
+  color: #ffffff;
+  margin: 25px auto 0px;
+  margin-bottom: 20px;
 }
 /* Responsive design  */
 @media (max-width: 768px) {

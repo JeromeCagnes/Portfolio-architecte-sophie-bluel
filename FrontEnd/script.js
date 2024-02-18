@@ -6,6 +6,20 @@ async function getCategories() {
     }
     const categories = await response.json()
     window.localStorage.setItem('categories', JSON.stringify(categories))
+
+    // Création des boutons de filtre pour chaque catégorie
+    const container = document.getElementById('buttonContainer')
+    categories.forEach((category) => {
+      const btn = document.createElement('button')
+      btn.className = 'filterButton'
+      btn.setAttribute('data-id', category.id) // Assurez-vous que l'API retourne un id pour chaque catégorie
+      btn.textContent = category.name
+      container.appendChild(btn)
+
+      // Ajouter un gestionnaire d'événements sur chaque bouton
+      btn.addEventListener('click', () => filterWorks(category.id))
+    })
+
     return categories
   } catch (error) {
     console.error('Fetch error:', error)
@@ -102,13 +116,10 @@ function displayThumbnailsInModal(works) {
     deleteIcon.setAttribute('aria-hidden', 'true')
     deleteIcon.classList.add('fa-trash-can', 'delete-icon')
     deleteIcon.onclick = function () {
-      // Récupérer le token d'authentification du localStorage
       const bearerAuth = JSON.parse(window.localStorage.getItem('BearerAuth'))
       const token = bearerAuth ? bearerAuth.token : null
 
-      // Vérifier si le token existe
       if (token) {
-        // Appel de l'API pour supprimer un élément
         fetch(`http://localhost:5678/api/works/${workItem.id}`, {
           method: 'DELETE',
           headers: {
@@ -119,10 +130,10 @@ function displayThumbnailsInModal(works) {
           .then((response) => {
             if (response.ok) {
               console.log('Élément supprimé avec succès.')
-              const parentElement = deleteIcon.parentElement
-              if (parentElement) {
-                parentElement.remove()
-              }
+              // Après suppression, rafraîchir la liste des œuvres
+              fetchData().then((works) => {
+                displayThumbnailsInModal(works)
+              })
             } else {
               console.error('Erreur lors de la suppression de l’élément.')
             }
@@ -234,42 +245,75 @@ window.onclick = function (event) {
 
 //FORMULAIRE D'AJOUT
 
-function uploadImages(event) {
+async function uploadImages(event) {
   event.preventDefault()
 
   var formData = new FormData(document.getElementById('modalEditWorkForm'))
 
-  fetch('http://localhost:5678/api/works', {
-    method: 'POST',
-    body: formData,
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json()
-      }
-      throw new Error("Échec de l'envoi des données")
+  try {
+    const response = await fetch('http://localhost:5678/api/works', {
+      method: 'POST',
+      body: formData,
+      headers: new Headers({
+        Accept: 'application/json',
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4',
+      }),
     })
-    .then((data) => {
-      console.log('Succès:', data)
-    })
-    .catch((error) => {
-      console.error("Erreur lors de l'upload des images:", error)
-    })
+
+    if (!response.ok) {
+      throw new Error("Échec de l'envoi des données: " + response.statusText)
+    }
+
+    const data = await response.json()
+    console.log('Succès:', data)
+    alert('Upload réussi !')
+  } catch (error) {
+    console.error("Erreur lors de l'upload des images:", error)
+    alert("Erreur lors de l'upload: " + error.message)
+  }
 }
-// Sélectionner le formulaire
+
+//------------------------
+
+// Sélectionner le formulaire et attacher l'événement de soumission
 var form = document.getElementById('modalEditWorkForm')
-
-//  Ecouteur d'événement sur le formulaire d'ajout
 form.addEventListener('submit', uploadImages)
-var addPhotoLabel = document.getElementById('newImage')
 
-addPhotoLabel.addEventListener('click', function () {})
+// Gestion des clics sur les boutons pour la manipulation de l'interface
+var addPhotoLabel = document.getElementById('newImage')
 var addPhotoBtn = document.getElementById('addPhotoBtn')
+var photoForm = document.getElementById('modalContentNewPhoto')
+
 addPhotoBtn.addEventListener('click', function () {
   var elementArendreVisible = document.getElementById('modal2')
+  var modal1 = document.getElementById('modal1')
   if (elementArendreVisible) {
     elementArendreVisible.style.display = 'flex'
-    var modal1 = document.getElementById('modal1')
     modal1.style.display = 'none'
   }
 })
+
+var formData = new FormData()
+var fileInput = document.querySelector('input[type="file"]')
+
+if (fileInput.files[0]) {
+  // Vérifie qu'un fichier a bien été sélectionné
+  formData.append('image', fileInput.files[0], fileInput.files[0].name)
+} else {
+  console.log('Aucun fichier sélectionné')
+}
+
+// Ajoutez d'autres champs à formData si nécessaire
+formData.append('title', 'le coteau')
+formData.append('category', 'Appartements')
+fetch('http://localhost:5678/api/works', {
+  method: 'POST',
+  body: formData,
+  headers: {
+    accept: 'application/json',
+  },
+})
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  .catch((error) => console.error('Error:', error))
