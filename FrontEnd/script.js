@@ -214,6 +214,7 @@ function displayThumbnails(works) {
 
 // MODALE
 // Obtenir la modale
+
 var modal = document.getElementById('myModal')
 
 // Obtenir le bouton qui ouvre la modale
@@ -247,73 +248,69 @@ window.onclick = function (event) {
 
 async function uploadImages(event) {
   event.preventDefault()
+  const selectedPicture = document.getElementById('image')
+  const selectedTitle = document.getElementById('title').value
+  const selectedCategory = parseInt(document.getElementById('category').value)
+  const userId = parseInt(window.localStorage.getItem('userId')) || 0
+  //----------------
+  const formData = new FormData()
+  if (selectedPicture.files[0] && selectedTitle.length > 0) {
+    formData.append('image', selectedPicture.files[0])
+    formData.append('title', selectedTitle)
+    formData.append('category', selectedCategory)
+    formData.append('userId', userId)
+  }
 
-  var formData = new FormData(document.getElementById('modalEditWorkForm'))
-
+  const bearerAuth = JSON.parse(window.localStorage.getItem('BearerAuth'))
+  const token = bearerAuth ? bearerAuth.token : null
   try {
     const response = await fetch('http://localhost:5678/api/works', {
       method: 'POST',
       body: formData,
-      headers: new Headers({
-        Accept: 'application/json',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4',
-      }),
+      headers: {
+        Accept: '*/*',
+        Authorization: `Bearer ${token}`,
+      },
     })
 
-    if (!response.ok) {
+    const data = await response.json()
+
+    if (response.ok) {
+      console.log('Succès:', data)
+      alert('Upload réussi !')
+    } else {
       throw new Error("Échec de l'envoi des données: " + response.statusText)
     }
-
-    const data = await response.json()
-    console.log('Succès:', data)
-    alert('Upload réussi !')
   } catch (error) {
     console.error("Erreur lors de l'upload des images:", error)
     alert("Erreur lors de l'upload: " + error.message)
   }
 }
 
-//------------------------
-
 // Sélectionner le formulaire et attacher l'événement de soumission
 var form = document.getElementById('modalEditWorkForm')
 form.addEventListener('submit', uploadImages)
 
 // Gestion des clics sur les boutons pour la manipulation de l'interface
-var addPhotoLabel = document.getElementById('newImage')
 var addPhotoBtn = document.getElementById('addPhotoBtn')
-var photoForm = document.getElementById('modalContentNewPhoto')
 
 addPhotoBtn.addEventListener('click', function () {
-  var elementArendreVisible = document.getElementById('modal2')
+  var modal2 = document.getElementById('modal2')
   var modal1 = document.getElementById('modal1')
-  if (elementArendreVisible) {
-    elementArendreVisible.style.display = 'flex'
+  if (modal2) {
+    modal2.style.display = 'flex'
     modal1.style.display = 'none'
   }
 })
 
-var formData = new FormData()
+// Préparation de FormData avec le fichier sélectionné
 var fileInput = document.querySelector('input[type="file"]')
 
-if (fileInput.files[0]) {
-  // Vérifie qu'un fichier a bien été sélectionné
-  formData.append('image', fileInput.files[0], fileInput.files[0].name)
-} else {
-  console.log('Aucun fichier sélectionné')
-}
-
-// Ajoutez d'autres champs à formData si nécessaire
-formData.append('title', 'le coteau')
-formData.append('category', 'Appartements')
-fetch('http://localhost:5678/api/works', {
-  method: 'POST',
-  body: formData,
-  headers: {
-    accept: 'application/json',
-  },
+fileInput.addEventListener('change', function () {
+  if (fileInput.files[0]) {
+    // Vérifie qu'un fichier a bien été sélectionné
+    console.log(fileInput.files[0].name + ' sélectionné')
+  } else {
+    console.log('Aucun fichier sélectionné')
+  }
 })
-  .then((response) => response.json())
-  .then((data) => console.log(data))
-  .catch((error) => console.error('Error:', error))

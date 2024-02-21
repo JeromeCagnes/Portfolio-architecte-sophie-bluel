@@ -693,7 +693,6 @@ i {
   margin-top: 20px;
   background: #cbd6dc;
   border-radius: 50px;
-  cursor: pointer;
   font-family: 'Work Sans';
   font-style: normal;
   font-weight: 500;
@@ -704,7 +703,8 @@ i {
   border: 1px solid #cbd6dc;
   cursor: pointer;
 }
-.modalContentNewPhoto #formImage {
+
+.modalContentNewPhoto #image {
   margin-top: -36px;
   width: 173px;
   padding: 8px 0;
@@ -777,6 +777,7 @@ select {
   color: #ffffff;
   margin: 25px auto 0px;
   margin-bottom: 20px;
+  cursor: pointer;
 }
 /* Responsive design  */
 @media (max-width: 768px) {

@@ -74,17 +74,20 @@
 
 					</div>
 					<h2 class="modal-title">Ajout photo</h2>
+					<!--MODALE 2 AJOUT-->
+
 					<div id="modalEditNewPhoto" class="modalContentNewPhoto">
 						<i id="photoAddIcon" class="fa-regular fa-image"></i>
-						<label for="image" class="photo-upload-button" style=""> + Ajouter photo</label>
-						<input id="formImage" type="file" name="image" accept="image/*, .jpg, .jpeg, .png" required>
+						<label class="photo-upload-button" for="image" style=""> + Ajouter photo</label>
+						<input id="image" name="image" type="file" accept="image/*, .jpg, .jpeg, .png" required>
 						<p id="photo-size">jpg, png : 4mo max</p>
 					</div>
 					<div class="modalContentNewCategoryTitle">
-						<label for="formTitle">Titre</label>
-						<input type="text" name="title" id="form-title" value="" required>
-						<label for="formCategory">Catégorie</label>
-						<select class="choiceCategory" id="form-category" required>
+						<label class="formTitle">Titre</label>
+						<input id="title" name="title" type="text" />
+						<label class="formCategory">Catégorie</label>
+						<select id="category" class="choiceCategory">
+							<option label=" " hidden disabled selected value></option>
 							<option value="">Tous</option>
 							<option value="objets">Objets</option>
 							<option value="appartements">Appartements</option>
