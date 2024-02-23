@@ -258,7 +258,6 @@ async function uploadImages(event) {
     formData.append('image', selectedPicture.files[0])
     formData.append('title', selectedTitle)
     formData.append('category', selectedCategory)
-    formData.append('userId', userId)
   }
 
   const bearerAuth = JSON.parse(window.localStorage.getItem('BearerAuth'))
