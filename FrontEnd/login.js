@@ -55,3 +55,43 @@ document
         document.querySelector('form').prepend(error)
       })
   })
+
+// Fonction pour la déconnection
+// Vérification de l'état de connexion au chargement de la page
+document.addEventListener('DOMContentLoaded', () => {
+  const token = window.localStorage.getItem('BearerAuth')
+  if (token) {
+    console.log('Utilisateur connecté. Affichage du bouton de déconnexion.')
+    toggleLogoutButton(true) // Afficher le bouton de déconnexion
+  } else {
+    console.log('Utilisateur non connecté.')
+    toggleLogoutButton(false) // Afficher le bouton de connexion
+  }
+})
+
+// Fonction pour basculer l'affichage des boutons "login" et "Déconnexion"
+function toggleLogoutButton(isLoggedIn) {
+  const loginItem = document.querySelector('.login') // L'élément contenant le bouton/lien de connexion
+  const logoutItem = document.querySelector('.logout') // L'élément contenant le bouton de déconnexion
+
+  if (isLoggedIn) {
+    loginItem.style.display = 'none'
+    logoutItem.style.display = ''
+    document
+      .getElementById('logoutButton')
+      .addEventListener('click', deconnexion)
+  } else {
+    loginItem.style.display = ''
+    logoutItem.style.display = 'none'
+  }
+}
+
+// Fonction de déconnexion
+function deconnexion() {
+  console.log('Début de la déconnexion...')
+  window.localStorage.removeItem('BearerAuth')
+  console.log('Token supprimé.')
+
+  toggleLogoutButton(false) // Réafficher le bouton de connexion
+  console.log('Utilisateur déconnecté.')
+}

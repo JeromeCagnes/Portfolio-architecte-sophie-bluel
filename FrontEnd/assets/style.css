@@ -371,6 +371,22 @@ footer nav ul {
   text-decoration-line: underline;
   color: #3d3d3d;
 }
+
+/*DECONNEXION*/
+
+.logout button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+.logout button:hover {
+  color: #b1663c;
+}
+
 /*BOUTON MODALE*/
 .portfolio-header {
   display: flex;
